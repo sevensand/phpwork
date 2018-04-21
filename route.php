@@ -19,12 +19,13 @@ if($server == 'POST') {
     echo "ERROR_DESCRIPTION";
   }
 }elseif($server == 'GET') {
-  if(isset($_GET['origins']) and isset($_GET['destinations'])) {
+  if(isset($_GET['origin']) and isset($_GET['destination'])) {
 
-    $dist_between = getdistancebetweenPoints($_GET['origins'], $_GET['destinations']);
+    $route= getdistancebetweenPoints($_GET['origin'], $_GET['destination']);
 
-    $arr = array("status"=>"success", "path"=>[$_GET['origins'], $_GET['destinations']], "total_distance" => $dist_between[0], "total_duration"=>$dist_between[1]);
-    echo json_encode($arr);
+    echo $route;
+    // $arr = array("status"=>"success", "path"=>[$_GET['origin'], $_GET['destination']], "total_distance" => $dist_between[0], "total_duration"=>$dist_between[1]);
+
 
   }
   else {
