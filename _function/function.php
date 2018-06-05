@@ -75,12 +75,14 @@ if($response['status']=='OK') {
         }
         return ($a > $b) ? -1 : 1;
     }
-  // $duration =  json_encode($data["legs"][0]["duration"], true);
+
   foreach($response["routes"] as $key => $data) {
+    $duration =  json_encode($data["legs"][0]["duration"], true);
     $route =  json_encode($data["legs"][0]["distance"]["value"], true);
     $distance = array($route);
+    
     usort($distance, "sortthedata");
-    print_r($distance);
+    return $distance;
   }
 
 

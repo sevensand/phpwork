@@ -22,12 +22,11 @@ if($server == 'POST') {
 
 }elseif($server == 'GET') {
   if(isset($_GET['origin']) and isset($_GET['destination'])) {
+    $distance= getdistancebetweenPoints($_GET['origin'], $_GET['destination']);
 
-    $route= getdistancebetweenPoints($_GET['origin'], $_GET['destination']);
-
-    echo $route;
+      $arry_shortest = array('status' => 'success', array('path' => $_GET['origin'], 'destination' => $_GET['destination']), 'total_distance' => $distance[0], 'total_time' => $distance[0]);
+      echo json_encode($arry_shortest);
     // $arr = array("status"=>"success", "path"=>[$_GET['origin'], $_GET['destination']], "total_distance" => $dist_between[0], "total_duration"=>$dist_between[1]);
-
   }
   else {
     echo "ERROR_DESCRIPTION";
