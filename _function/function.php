@@ -49,7 +49,7 @@ function endingPoint($lat1=null, $lng1=null) {
 
 // geting distance between two point
 function getdistancebetweenPoints($lat=null, $lng=null, $lat1=null, $lng1=null) {
-
+  global $TOKEN;
   global $g_key;
   global $api_googleapis;
   $file_content = ''.$api_googleapis.'origin='.$lat.'&destination='.$lng.'&alternatives=true&sensor=false&key='.$g_key.'';
@@ -68,26 +68,31 @@ $response =  json_decode($distbetween_content, true);
 
 if($response['status']=='OK') {
 
-    function sortthedata($a, $b)
-    {
-        if ($a == $b) {
-            return 0;
-        }
-        return ($a > $b) ? -1 : 1;
-    }
 
   foreach($response["routes"] as $key => $data) {
-    $duration =  json_encode($data["legs"][0]["duration"], true);
-    $route =  json_encode($data["legs"][0]["distance"]["value"], true);
-    $distance = array($route);
-    
-    usort($distance, "sortthedata");
+
+$route =  json_encode($data["legs"][0]['distance']['value'], true);
+$duration =  json_encode($data["legs"][0]['duration']['value'], true);
+$lat_start =  json_encode($data["legs"][0]['start_location']['lat'], true);
+$lng_start =  json_encode($data["legs"][0]['start_location']['lng'], true);
+$lat_end =  json_encode($data["legs"][0]['end_location']['lat'], true);
+$lng_end =  json_encode($data["legs"][0]['end_location']['lng'], true);
+
+
+    $distance = array(
+      'status' => 'success',
+      'path' => array(array($lat_start, $lng_start),
+            array($lat_end, $lng_end)),
+      'total_distance' => $route,
+      'total_time' => $duration);
     return $distance;
   }
 
 
 }else {
-  echo "ERROR_DESCRIPTION";
+$arr_error = array('status' => 'failure', 'error' => 'ERROR_DESCRIPTION');
+echo json_encode($arr_error);
+return 0;
 }
 
 
