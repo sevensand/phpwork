@@ -1,10 +1,12 @@
 <?php
 include('_function/function.php');
 include('_api/api.php');
+
+
 $server = $_SERVER['REQUEST_METHOD'];
 if($server == 'POST') {
 
-  if(isset($_POST['startpoint']) || isset($_POST['endpoint'])) {
+  if(isset($_POST['startpoint']) && isset($_POST['endpoint'])) {
       $point1 = startingPoint($_POST['startpoint']);
       $point2 = startingPoint($_POST['endpoint']);
       if($point1['status'] == 'OK' && $point2['status'] == 'OK') {
@@ -19,9 +21,9 @@ if($server == 'POST') {
 
 }elseif($server == 'GET') {
 
-  if(isset($_GET['origin']) and isset($_GET['destination']) || isset($_GET['token'])) {
-        $distance= getdistancebetweenPoints($_GET['origin'], $_GET['destination'], $_GET['token']);
-        echo json_encode($distance);
+  if(isset($_GET['origin']) && isset($_GET['destination'])) {
+    $distance= getdistancebetweenPoints($_GET['origin'], $_GET['destination']);
+      echo json_encode($distance);
   }
   else {
     $arr_error = array('status' => 'failure', 'error' => 'ERROR_DESCRIPTION');
