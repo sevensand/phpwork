@@ -41,7 +41,6 @@ function endingPoint($lat1=null, $lng1=null) {
   if($response_a['status']=='OK'){
     return $response_a;
   } else {
-    echo "ERROR_DESCRIPTION";
     return false;
   }
 
@@ -49,10 +48,10 @@ function endingPoint($lat1=null, $lng1=null) {
 
 // geting distance between two point
 function getdistancebetweenPoints($lat=null, $lng=null, $lat1=null, $lng1=null) {
-  global $TOKEN;
+  global $token;
   global $g_key;
   global $api_googleapis;
-  $file_content = ''.$api_googleapis.'origin='.$lat.'&destination='.$lng.'&alternatives=true&sensor=false&key='.$g_key.'';
+  $file_content = ''.$api_googleapis.'origin='.$lat.'&destination='.$lng.'&alternatives=true&sensor=false&key='.$g_key.'&token='.$token.'';
 
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $file_content);
@@ -65,19 +64,15 @@ function getdistancebetweenPoints($lat=null, $lng=null, $lat1=null, $lng1=null) 
   curl_close($ch);
 
 $response =  json_decode($distbetween_content, true);
-
 if($response['status']=='OK') {
 
-
-  foreach($response["routes"] as $key => $data) {
-
+foreach($response["routes"] as $key => $data) {
 $route =  json_encode($data["legs"][0]['distance']['value'], true);
 $duration =  json_encode($data["legs"][0]['duration']['value'], true);
 $lat_start =  json_encode($data["legs"][0]['start_location']['lat'], true);
 $lng_start =  json_encode($data["legs"][0]['start_location']['lng'], true);
 $lat_end =  json_encode($data["legs"][0]['end_location']['lat'], true);
 $lng_end =  json_encode($data["legs"][0]['end_location']['lng'], true);
-
 
     $distance = array(
       'status' => 'success',
