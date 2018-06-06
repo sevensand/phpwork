@@ -51,7 +51,7 @@ function getdistancebetweenPoints($lat=null, $lng=null, $lat1=null, $lng1=null) 
   global $token;
   global $g_key;
   global $api_googleapis;
-  $file_content = ''.$api_googleapis.'origin='.$lat.'&destination='.$lng.'&alternatives=true&sensor=false&key='.$g_key.'&token='.$token.'';
+  $file_content = ''.$api_googleapis.'origin='.$lat.'&destination='.$lng.'&alternatives=true&sensor=false&key='.$g_key.'&='.$token.'';
 
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $file_content);
